@@ -6,9 +6,11 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Rends Media | Visual documentation and verification for organisations</title>
   <meta name="description" content="Rends Media is a Kampala-based production and documentation partner for NGOs, donors and institutions: impact documentation, independent visual audits, events and corporate communications.">
+  <link rel="icon" href="assets/img/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,380;8..60,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -16,108 +18,145 @@
 
   <header class="site-header">
     <div class="wrap">
-      <a class="wordmark" href="index.html">Rends Media</a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <a class="logo" href="index.html"><img src="assets/img/logo_black.png" alt="Rends Media" width="640" height="208"></a>
       <nav class="nav" id="site-nav" aria-label="Main">
         <a href="index.html#services">Services</a>
+        <a href="index.html#audits">Visual audits</a>
         <a href="portfolio.html">Work</a>
         <a href="contact.html">Contact</a>
-        <a class="button" href="contact.html">Discuss a project</a>
       </nav>
+      <a class="button header-cta" href="contact.html">Discuss a project</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
     </div>
   </header>
 
   <main id="main">
 
-    <!-- Hero -->
-    <section class="hero">
+    <!-- Hero: full-bleed photograph (or a short silent video loop later) -->
+    <section class="hero on-dark" aria-labelledby="hero-title">
+      <div class="hero__media">
+        <div class="ph">Hero photograph or short video loop</div>
+      </div>
       <div class="wrap">
-        <div class="hero__grid">
-          <h1>Visual stories and field evidence for organisations doing real work.</h1>
-          <div class="hero__intro">
-            <p>Rends Media is a production and documentation partner based in Kampala. We film and photograph programmes, events and leadership across Uganda and the region, and independently verify project implementation for donors.</p>
-            <div class="hero__actions">
-              <a class="button" href="contact.html">Discuss a project</a>
-              <a class="button button--quiet" href="portfolio.html">See our work</a>
+        <p class="hero__kicker">Production and documentation partner, Kampala</p>
+        <h1 id="hero-title">Visual stories and <span class="hl">field evidence</span> for organisations doing real work</h1>
+        <p class="hero__text">We film and photograph programmes, events and leadership across Uganda and the region, and independently verify project implementation for donors.</p>
+        <div class="actions">
+          <a class="button" href="contact.html">Discuss a project</a>
+          <a class="button button--ghost" href="portfolio.html">See our work</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trusted by: client logos (only those with permission) -->
+    <section class="trusted" aria-label="Trusted by">
+      <div class="wrap">
+        <p class="trusted__label">Trusted by organisations across Uganda and East Africa</p>
+        <ul class="logos">
+          <li><span class="logo-ph">Client logo</span></li>
+          <li><span class="logo-ph">Client logo</span></li>
+          <li><span class="logo-ph">Client logo</span></li>
+          <li><span class="logo-ph">Client logo</span></li>
+          <li><span class="logo-ph">Client logo</span></li>
+          <li><span class="logo-ph">Client logo</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Intro -->
+    <section class="section intro center" aria-labelledby="intro-title">
+      <div class="wrap">
+        <h2 class="title" id="intro-title">One standard of work for <span class="hl">every client</span></h2>
+        <p class="lead">Whether you fund programmes, run them, or lead a company in Kampala, you get the same crew discipline, the same respect for the people on camera, and footage you can stand behind.</p>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section section--mist" id="services" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="section-head split-head">
+          <div>
+            <h2 class="title" id="services-title">What we <span class="hl">produce</span></h2>
+            <p class="lead">Every assignment is planned around how the material will be used: in a report, a funding proposal, a board meeting or a feed.</p>
+          </div>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card__media"><div class="ph ph--light">Field photo</div></div>
+            <div class="card__body">
+              <h3>Impact documentation</h3>
+              <p class="card__for">For NGOs and multi-year programmes</p>
+              <p>Documentaries and case studies that show long-term change through the people who lived it.</p>
+              <ul>
+                <li>Human-interest case studies</li>
+                <li>Donor reporting packages</li>
+                <li>Field B-roll library for your HQ</li>
+              </ul>
+              <a class="text-link" href="portfolio.html#development">See the work</a>
             </div>
-          </div>
-        </div>
-
-        <figure class="frame hero__image">
-          <div class="frame__image">
-            <div class="placeholder">Hero photograph: a strong documentary field image</div>
-          </div>
-          <figcaption class="record">
-            <span class="record__what">Caption: what is happening, and where</span>
-            <span>Month Year</span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- Sectors served (replace with approved client names or logos) -->
-    <section class="section--tight" aria-label="Who we work with">
-      <div class="wrap">
-        <div class="sectors">
-          <p class="sectors__lead">Working with</p>
-          <ul>
-            <li>International NGOs</li>
-            <li>Donors and foundations</li>
-            <li>Faith-based organisations</li>
-            <li>Corporates and institutions</li>
-            <li>Regional forums</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Two audiences -->
-    <section class="section" aria-labelledby="pathways-title">
-      <div class="wrap">
-        <div class="section__head">
-          <h2 id="pathways-title">Two kinds of client, one standard of work</h2>
-          <p>Whether you fund programmes, run them, or lead a company in Kampala, you get the same crew discipline, the same respect for the people on camera, and footage you can stand behind.</p>
-        </div>
-        <div class="pathways">
-          <div class="pathway">
-            <h3>Development organisations and donors</h3>
-            <p>For NGOs, foundations, embassies and multi-year programmes that need to show what changed, and prove it.</p>
-            <ul>
-              <li>Independent visual audits</li>
-              <li>Impact documentaries and case studies</li>
-              <li>Donor reporting packages</li>
-              <li>Field production in remote areas</li>
-            </ul>
-            <a class="text-link" href="portfolio.html#development">See development work</a>
-          </div>
-          <div class="pathway">
-            <h3>Corporate and institutional</h3>
-            <p>For companies, financial institutions and public bodies that need a dependable production team all year round.</p>
-            <ul>
-              <li>Monthly content retainers</li>
-              <li>Executive portraits and profiles</li>
-              <li>Conferences, summits and launches</li>
-              <li>CSR documentation</li>
-            </ul>
-            <a class="text-link" href="portfolio.html#corporate">See corporate work</a>
-          </div>
+          </article>
+          <article class="card">
+            <div class="card__media"><div class="ph ph--light">Field photo</div></div>
+            <div class="card__body">
+              <h3>Visual audits</h3>
+              <p class="card__for">For donors, foundations and embassies</p>
+              <p>Independent field verification of funded projects: photo log, interviews and an executive brief.</p>
+              <ul>
+                <li>72-hour field dispatch</li>
+                <li>GPS- and time-stamped evidence</li>
+                <li>Executive audit brief</li>
+              </ul>
+              <a class="text-link" href="#audits">How audits work</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card__media"><div class="ph ph--light">Event photo</div></div>
+            <div class="card__body">
+              <h3>Events and dialogues</h3>
+              <p class="card__for">For forums, summits and conferences</p>
+              <p>Coverage that keeps pace with the programme and stays out of the way in closed sessions.</p>
+              <ul>
+                <li>Multi-camera live streaming</li>
+                <li>Same-day edited press photos</li>
+                <li>Highlight films</li>
+              </ul>
+              <a class="text-link" href="portfolio.html#events">See the work</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card__media"><div class="ph ph--light">Corporate photo</div></div>
+            <div class="card__body">
+              <h3>Corporate communications</h3>
+              <p class="card__for">For companies and institutions</p>
+              <p>A steady supply of professional content, from leadership profiles to short-form video.</p>
+              <ul>
+                <li>Monthly content retainers</li>
+                <li>Executive portraits and profiles</li>
+                <li>CSR documentation</li>
+              </ul>
+              <a class="text-link" href="portfolio.html#corporate">See the work</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
     <!-- Independent visual audits -->
-    <section class="section section--slate on-dark" id="audits" aria-labelledby="audit-title">
+    <section class="section section--dark on-dark" id="audits" aria-labelledby="audit-title">
       <div class="wrap">
         <div class="audit">
           <div>
-            <h2 id="audit-title">Independent visual audits for donors</h2>
-            <p class="audit__lead">Reports tell you what was done. We show you whether it happened. Our Continuous Implementation Monitoring service sends an independent team to your grantees' project sites to document them as they are.</p>
-            <p class="audit__note">Audits are agreed with you in advance and written into the grant, so field visits are expected, cleared with local authorities and carried out with full consent from the people we film.</p>
-            <div class="hero__actions">
+            <h2 class="title" id="audit-title">Independent visual audits <span class="hl">for donors</span></h2>
+            <p class="lead">Reports tell you what was done. We show you whether it happened. Our Continuous Implementation Monitoring service sends an independent team to your grantees' project sites to document them as they are.</p>
+            <p class="audit__note">Audits are agreed in advance and written into the grant, cleared with local authorities, and carried out with full consent from the people we film.</p>
+            <div class="actions">
               <a class="button" href="contact.html?enquiry=audit">Request a sample audit brief</a>
             </div>
           </div>
-          <ol class="audit__steps">
+          <ol class="steps">
             <li><strong>Dispatch within 72 hours</strong><span>A field team reaches the project site on short notice.</span></li>
             <li><strong>GPS- and time-stamped photo log</strong><span>Every image carries its location and capture time, so old or reused photos can't pass as new.</span></li>
             <li><strong>Verified beneficiary interviews</strong><span>Short, consented interviews with the people a project is meant to serve.</span></li>
@@ -127,146 +166,81 @@
       </div>
     </section>
 
-    <!-- Services -->
-    <section class="section" id="services" aria-labelledby="services-title">
+    <!-- Selected films -->
+    <section class="section" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="section__head">
-          <h2 id="services-title">What we produce</h2>
-          <p>Every assignment is planned around how the material will be used: in a report, a funding proposal, a board meeting or a feed.</p>
+        <div class="section-head split-head">
+          <div>
+            <h2 class="title" id="work-title">Stories <span class="hl">that matter</span></h2>
+            <p class="lead">A few recent assignments. Client names appear only where we have permission to share them.</p>
+          </div>
+          <a class="button button--ghost" href="portfolio.html">See all work</a>
         </div>
-        <ul class="services">
-          <li class="service">
-            <h3>Impact documentation <span class="service__for">For NGOs and multi-year programmes</span></h3>
-            <div class="service__body">
-              <p>Documentaries and case studies that show long-term change through the people who lived it, told with dignity and without generic fundraising language.</p>
-              <ul class="deliverables">
-                <li>Human-interest case studies</li>
-                <li>Donor reporting packages</li>
-                <li>Field B-roll library for your HQ</li>
-                <li>Photo stories</li>
-              </ul>
-            </div>
-          </li>
-          <li class="service">
-            <h3>Events and high-level dialogues <span class="service__for">For forums, summits and conferences</span></h3>
-            <div class="service__body">
-              <p>Coverage that keeps pace with the programme and stays out of the way in closed sessions.</p>
-              <ul class="deliverables">
-                <li>Multi-camera live streaming</li>
-                <li>Same-day edited press photos</li>
-                <li>Silent-shutter coverage</li>
-                <li>Highlight films</li>
-              </ul>
-            </div>
-          </li>
-          <li class="service">
-            <h3>Corporate communications <span class="service__for">For companies and institutions</span></h3>
-            <div class="service__body">
-              <p>A steady supply of professional content, from leadership profiles to the short videos your audience actually watches.</p>
-              <ul class="deliverables">
-                <li>Monthly content retainers</li>
-                <li>Executive portraits and profiles</li>
-                <li>Brand and corporate films</li>
-                <li>CSR documentation</li>
-              </ul>
-            </div>
-          </li>
-          <li class="service">
-            <h3>Independent visual audits <span class="service__for">For donors, foundations and embassies</span></h3>
-            <div class="service__body">
-              <p>Field verification of funded projects, delivered as a photo log, interviews and an executive brief.</p>
-              <a class="text-link" href="#audits">How audits work</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Selected work -->
-    <section class="section section--paper" aria-labelledby="work-title">
-      <div class="wrap">
-        <div class="section__head">
-          <h2 id="work-title">Selected work</h2>
-          <p>A few recent assignments. Client names appear only where we have permission to share them.</p>
-        </div>
-        <div class="work-grid">
-          <a class="work work--wide" href="portfolio.html">
-            <figure class="frame">
-              <div class="frame__image"><div class="placeholder">Project image</div></div>
-              <figcaption class="record"><span class="record__what">Location</span><span>Year</span></figcaption>
-            </figure>
-            <h3>Origin story of a children's home</h3>
-            <p>A partnership told through the people who built it, not through appeals.</p>
+        <div class="films">
+          <a class="film" href="portfolio.html">
+            <span class="film__media"><span class="ph">Film still</span></span>
+            <span class="film__tag">Documentary</span>
+            <span class="film__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+            <span class="film__info">
+              <span class="film__title">Origin story of a children's home</span>
+              <span class="film__meta">Location, year</span>
+            </span>
           </a>
-          <a class="work work--offset" href="portfolio.html">
-            <figure class="frame">
-              <div class="frame__image"><div class="placeholder">Project image</div></div>
-              <figcaption class="record"><span class="record__what">Location</span><span>Year</span></figcaption>
-            </figure>
-            <h3>Pastors' conference mini-documentary</h3>
-            <p>Built entirely from interviews, with no voiceover.</p>
+          <a class="film" href="portfolio.html">
+            <span class="film__media"><span class="ph">Film still</span></span>
+            <span class="film__tag">Mini-documentary</span>
+            <span class="film__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+            <span class="film__info">
+              <span class="film__title">Pastors' conference</span>
+              <span class="film__meta">Built entirely from interviews</span>
+            </span>
           </a>
-          <a class="work" href="portfolio.html">
-            <figure class="frame">
-              <div class="frame__image"><div class="placeholder">Project image</div></div>
-              <figcaption class="record"><span class="record__what">Kalisizo</span><span>Year</span></figcaption>
-            </figure>
-            <h3>Community fundraising film</h3>
-            <p>A Rotaract project reframed around the people it serves.</p>
+          <a class="film" href="portfolio.html">
+            <span class="film__media"><span class="ph">Film still</span></span>
+            <span class="film__tag">Fundraising film</span>
+            <span class="film__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+            <span class="film__info">
+              <span class="film__title">Community project, Kalisizo</span>
+              <span class="film__meta">Rotaract, year</span>
+            </span>
           </a>
-          <a class="work work--wide" href="portfolio.html">
-            <figure class="frame">
-              <div class="frame__image"><div class="placeholder">Project image</div></div>
-              <figcaption class="record"><span class="record__what">Location</span><span>Year</span></figcaption>
-            </figure>
-            <h3>One story for a three-part ministry</h3>
-            <p>A children's home, a women's rescue programme and a church network, held together by one thread.</p>
-          </a>
-        </div>
-        <div class="work-more">
-          <a class="button button--quiet" href="portfolio.html">See all work</a>
         </div>
       </div>
     </section>
 
-    <!-- Approach -->
-    <section class="section" aria-labelledby="approach-title">
+    <!-- Process -->
+    <section class="section section--mist" aria-labelledby="process-title">
       <div class="wrap">
-        <div class="section__head">
-          <h2 id="approach-title">How an assignment runs</h2>
-          <p>The same four stages whether it's a one-day event or a month in the field.</p>
+        <div class="section-head">
+          <h2 class="title" id="process-title">How an assignment <span class="hl">runs</span></h2>
         </div>
-        <ol class="approach">
-          <li><h3>Understand</h3><p>We learn what the material is for, who will see it and what it must prove.</p></li>
-          <li><h3>Plan</h3><p>Locations, permissions, consent, transport and a shot list, agreed before anyone travels.</p></li>
-          <li><h3>Produce</h3><p>A crew sized to the job, working quietly and treating every person on camera with respect.</p></li>
-          <li><h3>Deliver</h3><p>Edited files in the formats you need, on the date we agreed, with raw material archived.</p></li>
+        <ol class="process">
+          <li><h3>Understand</h3><p>What the material is for, who will see it and what it must prove.</p></li>
+          <li><h3>Plan</h3><p>Locations, permissions, consent and a shot list, agreed before anyone travels.</p></li>
+          <li><h3>Produce</h3><p>A crew sized to the job, working quietly and with respect for everyone on camera.</p></li>
+          <li><h3>Deliver</h3><p>Edited files in the formats you need, on the date we agreed.</p></li>
         </ol>
       </div>
     </section>
 
     <!-- Closing -->
-    <section class="section section--slate on-dark" aria-labelledby="closing-title">
+    <section class="section section--dark on-dark cta center" aria-labelledby="cta-title">
       <div class="wrap">
-        <div class="closing">
-          <h2 id="closing-title">Tell us about your next assignment.</h2>
-          <div>
-            <p>Share what you need documented, where and by when. We'll reply within one working day with questions or a proposal.</p>
-            <div class="hero__actions">
-              <a class="button" href="contact.html">Discuss a project</a>
-            </div>
-          </div>
+        <h2 class="title" id="cta-title">Tell us about your <span class="hl">next assignment</span></h2>
+        <p class="lead" style="margin-top:1rem">Share what you need documented, where and by when. We reply within one working day.</p>
+        <div class="actions">
+          <a class="button" href="contact.html">Discuss a project</a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <footer class="site-footer on-dark">
+  <footer class="site-footer">
     <div class="wrap">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a class="wordmark" href="index.html">Rends Media</a>
+          <img src="assets/img/logo_white.png" alt="Rends Media" width="640" height="208">
           <p>Production and documentation partner for organisations in Uganda and East Africa.</p>
         </div>
         <div>
@@ -280,6 +254,7 @@
           <h2>Pages</h2>
           <ul>
             <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#audits">Visual audits</a></li>
             <li><a href="portfolio.html">Work</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
