@@ -1,0 +1,7 @@
+# Always re-check pages so content updates show immediately.
+# Stylesheets and scripts are versioned (?v=) in the HTML, so they can be cached long-term.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
