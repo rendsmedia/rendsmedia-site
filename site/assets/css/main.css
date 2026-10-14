@@ -121,10 +121,10 @@ body { padding-top: var(--header-h); }
   min-height: min(88vh, 46rem); color: var(--white); overflow: hidden; background: var(--ink);
 }
 .hero__media { position: absolute; inset: 0; }
-.hero__media img, .hero__media video { width: 100%; height: 100%; object-fit: cover; }
+.hero__media img, .hero__media video { width: 100%; height: 100%; object-fit: cover; object-position: 60% 45%; }
 .hero__media::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(20,19,18,.88) 0%, rgba(20,19,18,.45) 45%, rgba(20,19,18,.15) 100%);
+  background: linear-gradient(to top, rgba(20,19,18,.9) 0%, rgba(20,19,18,.55) 45%, rgba(20,19,18,.2) 100%), linear-gradient(to right, rgba(20,19,18,.55) 0%, rgba(20,19,18,0) 60%);
 }
 .hero .wrap { position: relative; padding-top: 6rem; padding-bottom: clamp(3rem, 8vw, 5.5rem); }
 .hero__kicker { font-size: .8125rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 1rem; }
@@ -170,7 +170,8 @@ body { padding-top: var(--header-h); }
 /* ---------- Service cards ---------- */
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
 .card { background: var(--bg); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
-.card__media { position: relative; aspect-ratio: 4 / 3; background: var(--mist); }
+.card__media { position: relative; aspect-ratio: 4 / 3; background: #E9E9E9; overflow: hidden; }
+.card__media img { width: 100%; height: 100%; object-fit: cover; }
 .card__body { padding: 1.35rem 1.35rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
 .card h3 { font-size: 1.125rem; font-weight: 700; letter-spacing: -.005em; }
 .card__for { font-size: .8125rem; color: var(--blue); font-weight: 500; font-style: italic; margin: .3rem 0 .85rem; }
@@ -244,3 +245,20 @@ body { padding-top: var(--header-h); }
 .page-intro { padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(3rem, 6vw, 4rem); }
 .page-intro h1 { font-size: clamp(1.875rem, 4vw, 3rem); text-transform: uppercase; max-width: 20ch; }
 .page-intro .lead { margin-top: 1.25rem; }
+
+/* ---------- From the field: photo grid ---------- */
+.gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(10rem, 16vw, 14rem); grid-auto-flow: dense; gap: clamp(.5rem, 1.2vw, .875rem); }
+.shot { position: relative; margin: 0; overflow: hidden; border-radius: var(--radius); background: #E9E9E9; }
+.shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.shot--wide { grid-column: span 2; }
+.shot--tall { grid-row: span 2; }
+.shot figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 2rem .9rem .75rem;
+  background: linear-gradient(to top, rgba(20,20,20,.75), rgba(20,20,20,0));
+  color: var(--white); font-size: .75rem; font-weight: 500; line-height: 1.35;
+}
+.shot:hover img { transform: scale(1.03); }
+@media (max-width: 52rem) {
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 9.5rem; }
+  .shot--tall { grid-row: span 2; }
+}
