@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/main.css?v=5">
+  <link rel="stylesheet" href="assets/css/main.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -37,7 +37,123 @@
     <section class="page-intro">
       <div class="wrap">
         <h1>Tell us about your <span class="hl">next assignment</span></h1>
-        <p class="lead">Share what you need documented, where and by when. The enquiry form, email and WhatsApp details will be here shortly.</p>
+        <p class="lead">Share what you need documented, where and by when. We reply within one working day.</p>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="wrap contact">
+        <div class="contact__form" id="form">
+          <div class="notice notice--ok" id="notice-sent" role="status" hidden>
+            <strong>Thank you, your enquiry has been sent.</strong>
+            <span>We'll reply to the email address you gave within one working day.</span>
+          </div>
+          <div class="notice notice--error" id="notice-error" role="alert" hidden>
+            <strong>Your enquiry didn't send.</strong>
+            <span>Please check the required fields and try again, or email us directly at <a href="mailto:business@rendsmedia.com">business@rendsmedia.com</a>.</span>
+          </div>
+
+          <form class="form" action="contact.php" method="post" novalidate>
+            <div class="form__row">
+              <div class="field">
+                <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
+              </div>
+              <div class="field">
+                <label for="f-org">Organisation</label>
+                <input id="f-org" name="organisation" type="text" autocomplete="organization" maxlength="160">
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="field">
+                <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="160">
+              </div>
+              <div class="field">
+                <label for="f-phone">Phone or WhatsApp</label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-type">What do you need? <span class="req" aria-hidden="true">*</span></label>
+              <select id="f-type" name="enquiry" required>
+                <option value="">Choose one</option>
+                <option value="impact">Impact documentation</option>
+                <option value="audit">Visual audit</option>
+                <option value="events">Event coverage</option>
+                <option value="corporate">Corporate content</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+
+            <fieldset class="audit-extra" id="audit-extra" hidden>
+              <legend>About the audit</legend>
+              <div class="form__row">
+                <div class="field">
+                  <label for="f-sites">How many projects or sites?</label>
+                  <input id="f-sites" name="audit_sites" type="text" maxlength="60" placeholder="e.g. 3 schools">
+                </div>
+                <div class="field">
+                  <label for="f-districts">Which districts or countries?</label>
+                  <input id="f-districts" name="audit_locations" type="text" maxlength="200">
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form__row">
+              <div class="field">
+                <label for="f-where">Where is the work?</label>
+                <input id="f-where" name="location" type="text" maxlength="200" placeholder="District, city or country">
+              </div>
+              <div class="field">
+                <label for="f-when">When?</label>
+                <input id="f-when" name="timing" type="text" maxlength="120" placeholder="Dates or timeframe">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-budget">Budget guide <span class="optional">(optional)</span></label>
+              <div class="budget">
+                <select id="f-currency" name="currency" aria-label="Currency">
+                  <option value="UGX">UGX</option>
+                  <option value="USD">USD</option>
+                </select>
+                <input id="f-budget" name="budget" type="text" inputmode="numeric" maxlength="40" aria-describedby="budget-hint">
+              </div>
+              <p class="hint" id="budget-hint">Helps us suggest the right crew and scope. Leave it blank if you'd rather discuss it.</p>
+            </div>
+
+            <div class="field">
+              <label for="f-message">Tell us about the project <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="f-message" name="message" rows="6" required maxlength="5000"></textarea>
+            </div>
+
+            <!-- Spam protection: humans never see or fill these -->
+            <div class="hp" aria-hidden="true">
+              <label for="f-website">Leave this empty</label>
+              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="started" id="f-started" value="">
+
+            <p class="form__required"><span class="req" aria-hidden="true">*</span> Required</p>
+            <button class="button" type="submit">Send enquiry</button>
+          </form>
+        </div>
+
+        <aside class="contact__direct" aria-label="Other ways to reach us">
+          <h2>Prefer to write directly?</h2>
+          <dl>
+            <dt>Email</dt>
+            <dd><a href="mailto:business@rendsmedia.com">business@rendsmedia.com</a></dd>
+            <dt>Based in</dt>
+            <dd>Kampala, Uganda</dd>
+            <dt>Working across</dt>
+            <dd>Uganda and East Africa</dd>
+            <dt>Reply time</dt>
+            <dd>Within one working day</dd>
+          </dl>
+        </aside>
       </div>
     </section>
   </main>
@@ -52,8 +168,7 @@
         <div>
           <h2>Contact</h2>
           <ul>
-            <li><a href="mailto:hello@rendsmedia.com">hello@rendsmedia.com</a></li>
-            <li><a href="https://wa.me/256000000000">WhatsApp</a></li>
+            <li><a href="mailto:business@rendsmedia.com">business@rendsmedia.com</a></li>
           </ul>
         </div>
         <div>
@@ -79,6 +194,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=5"></script>
+  <script src="assets/js/main.js?v=6"></script>
 </body>
 </html>

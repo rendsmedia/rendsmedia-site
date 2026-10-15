@@ -46,3 +46,54 @@
     });
   });
 })();
+
+// Trusted by: on phones, turn the logo row into a slow rotating single line
+(function () {
+  var list = document.querySelector('.logos');
+  if (!list || !list.children.length) return;
+  var viewport = document.createElement('div');
+  viewport.className = 'logos-viewport';
+  list.parentNode.insertBefore(viewport, list);
+  viewport.appendChild(list);
+  // A second copy makes the loop seamless; hidden from screen readers
+  Array.prototype.slice.call(list.children).forEach(function (li) {
+    var copy = li.cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    copy.classList.add('logos__copy');
+    list.appendChild(copy);
+  });
+  var mq = window.matchMedia('(max-width: 52rem)');
+  function apply() { list.classList.toggle('is-marquee', mq.matches); }
+  apply();
+  if (mq.addEventListener) mq.addEventListener('change', apply); else mq.addListener(apply);
+})();
+
+// Contact form: preselect from link, show audit questions, success/error notices, basic checks
+(function () {
+  var form = document.querySelector('.form');
+  if (!form) return;
+  var params = new URLSearchParams(window.location.search);
+  var type = document.getElementById('f-type');
+  var extra = document.getElementById('audit-extra');
+  var started = document.getElementById('f-started');
+  if (started) started.value = String(Date.now());
+
+  var pre = params.get('enquiry');
+  if (pre && type.querySelector('option[value="' + pre.replace(/[^a-z]/g, '') + '"]')) type.value = pre;
+  function toggleExtra() { extra.hidden = type.value !== 'audit'; }
+  type.addEventListener('change', toggleExtra);
+  toggleExtra();
+
+  if (params.get('sent')) { document.getElementById('notice-sent').hidden = false; form.hidden = true; }
+  if (params.get('error')) { document.getElementById('notice-error').hidden = false; }
+
+  form.addEventListener('submit', function (e) {
+    var firstBad = null;
+    form.querySelectorAll('[required]').forEach(function (el) {
+      var bad = !el.value.trim() || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+      if (bad && !firstBad) firstBad = el;
+    });
+    if (firstBad) { e.preventDefault(); firstBad.focus(); }
+  });
+})();
