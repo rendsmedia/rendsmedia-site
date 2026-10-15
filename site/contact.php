@@ -94,19 +94,52 @@ $headers = [
 
 $encSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 
-// Preferred route: send through Google Workspace (smtp.gmail.com) with an app password.
-// The password lives in a file OUTSIDE the website and outside this public repo:
-//   /home/rends/rends-mail-config.php  →  <?php return ['user' => 'business@rendsmedia.com', 'pass' => 'xxxx xxxx xxxx xxxx'];
+// Preferred route: hand the enquiry to a small Google Apps Script in the business@ Google account,
+// which emails it to the inbox. Uses the normal web connection (HTTPS), which the host does not block.
+// Settings live in a file OUTSIDE the website and outside this public repo:
+//   /home/rends/rends-mail-config.php  →  <?php return ['script_url' => 'https://script.google.com/macros/s/.../exec', 'secret' => '...'];
+// (Older SMTP settings 'user' + 'pass' are still supported but the host intercepts SMTP.)
 $configFile = dirname(__DIR__) . '/rends-mail-config.php';
 if (is_file($configFile)) {
     $cfg = include $configFile;
-    $ok = is_array($cfg) && smtp_send($cfg, TO_ADDRESS, $email, $encSubject, implode("\r\n", $lines));
+    if (is_array($cfg) && !empty($cfg['script_url'])) {
+        $ok = script_send($cfg, $subject, implode("\n", $lines), $email);
+    } else {
+        $ok = is_array($cfg) && smtp_send($cfg, TO_ADDRESS, $email, $encSubject, implode("\r\n", $lines));
+    }
     back($ok ? 'sent=1' : 'error=1');
 }
 
 // Fallback: the server's own mail system.
 $ok = mail(TO_ADDRESS, $encSubject, implode("\n", $lines), implode("\r\n", $headers), '-f' . FROM_ADDRESS);
 back($ok ? 'sent=1' : 'error=1');
+
+/** Post the enquiry to the Google Apps Script web app. Logs failures (no enquiry content). */
+function script_send(array $cfg, string $subject, string $body, string $replyTo): bool {
+    $log = dirname(__DIR__) . '/rends-mail.log';
+    $payload = json_encode(['secret' => (string) ($cfg['secret'] ?? ''), 'subject' => $subject, 'body' => $body, 'replyTo' => $replyTo]);
+    $resp = false; $err = '';
+    if (function_exists('curl_init')) {
+        $ch = curl_init((string) $cfg['script_url']);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true, CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5,
+            CURLOPT_TIMEOUT => 25,
+        ]);
+        $resp = curl_exec($ch);
+        if ($resp === false) $err = curl_error($ch);
+        curl_close($ch);
+    } else {
+        $resp = @file_get_contents((string) $cfg['script_url'], false, stream_context_create(['http' => [
+            'method' => 'POST', 'header' => "Content-Type: application/json\r\n", 'content' => $payload, 'timeout' => 25,
+        ]]));
+        if ($resp === false) { $e = error_get_last(); $err = $e ? $e['message'] : 'request failed'; }
+    }
+    if (is_string($resp) && trim($resp) === 'ok') return true;
+    @file_put_contents($log, date('c') . ' script: ' . ($err !== '' ? $err : substr(preg_replace('/\s+/', ' ', strip_tags((string) $resp)), 0, 300)) . "\n", FILE_APPEND);
+    return false;
+}
 
 /** Minimal SMTP client for Google: SSL on 465, or STARTTLS on 587. Logs failures (no enquiry content). */
 function smtp_send(array $cfg, string $to, string $replyTo, string $subject, string $body): bool {
