@@ -363,3 +363,6 @@ body { padding-top: var(--header-h); }
   .filters__label { flex-basis: 100%; margin: 0 0 .1rem; }
   .work-intro .filter { padding: .6rem .65rem; min-height: 2.25rem; font-size: .6875rem; letter-spacing: .02em; }
 }
+
+.footer-base .credit { color: var(--accent-light); text-decoration: underline; text-underline-offset: .2em; }
+.footer-base .credit:hover { color: var(--white); }
