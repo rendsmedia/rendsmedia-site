@@ -92,12 +92,81 @@ $headers = [
     'X-Mailer: PHP/' . phpversion(),
 ];
 
-$ok = mail(
-    TO_ADDRESS,
-    '=?UTF-8?B?' . base64_encode($subject) . '?=',
-    implode("\n", $lines),
-    implode("\r\n", $headers),
-    '-f' . FROM_ADDRESS
-);
+$encSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
 
+// Preferred route: send through Google Workspace (smtp.gmail.com) with an app password.
+// The password lives in a file OUTSIDE the website and outside this public repo:
+//   /home/rends/rends-mail-config.php  →  <?php return ['user' => 'business@rendsmedia.com', 'pass' => 'xxxx xxxx xxxx xxxx'];
+$configFile = dirname(__DIR__) . '/rends-mail-config.php';
+if (is_file($configFile)) {
+    $cfg = include $configFile;
+    $ok = is_array($cfg) && smtp_send($cfg, TO_ADDRESS, $email, $encSubject, implode("\r\n", $lines));
+    back($ok ? 'sent=1' : 'error=1');
+}
+
+// Fallback: the server's own mail system.
+$ok = mail(TO_ADDRESS, $encSubject, implode("\n", $lines), implode("\r\n", $headers), '-f' . FROM_ADDRESS);
 back($ok ? 'sent=1' : 'error=1');
+
+/** Minimal SMTP client for Google: SSL on 465, or STARTTLS on 587. Logs failures (no enquiry content). */
+function smtp_send(array $cfg, string $to, string $replyTo, string $subject, string $body): bool {
+    $user = (string) ($cfg['user'] ?? '');
+    $pass = str_replace(' ', '', (string) ($cfg['pass'] ?? ''));
+    $log  = dirname(__DIR__) . '/rends-mail.log';
+    $fail = function (string $why) use ($log) {
+        @file_put_contents($log, date('c') . ' ' . $why . "\n", FILE_APPEND);
+        return false;
+    };
+    if ($user === '' || $pass === '') return $fail('config missing user or pass');
+
+    $s = @stream_socket_client('ssl://smtp.gmail.com:465', $errno, $errstr, 15);
+    $tls = false;
+    if (!$s) {
+        $s = @stream_socket_client('tcp://smtp.gmail.com:587', $errno2, $errstr2, 15);
+        if (!$s) return $fail("connect failed: 465 ($errstr) / 587 ($errstr2)");
+        $tls = true;
+    }
+    stream_set_timeout($s, 20);
+    $read = function () use ($s) {
+        $out = '';
+        while (($l = fgets($s, 515)) !== false) { $out .= $l; if (isset($l[3]) && $l[3] === ' ') break; }
+        return $out;
+    };
+    $cmd = function (string $c, string $expect) use ($s, $read) {
+        if ($c !== '') fwrite($s, $c . "\r\n");
+        $r = $read();
+        return strncmp($r, $expect, 3) === 0 ? true : trim($r);
+    };
+    $host = 'rendsmedia.com';
+    if (($r = $cmd('', '220')) !== true) return $fail("greeting: $r");
+    if (($r = $cmd("EHLO $host", '250')) !== true) return $fail("ehlo: $r");
+    if ($tls) {
+        if (($r = $cmd('STARTTLS', '220')) !== true) return $fail("starttls: $r");
+        if (!stream_socket_enable_crypto($s, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) return $fail('tls handshake failed');
+        if (($r = $cmd("EHLO $host", '250')) !== true) return $fail("ehlo2: $r");
+    }
+    if (($r = $cmd('AUTH LOGIN', '334')) !== true) return $fail("auth: $r");
+    if (($r = $cmd(base64_encode($user), '334')) !== true) return $fail("auth user: $r");
+    if (($r = $cmd(base64_encode($pass), '235')) !== true) return $fail("auth pass rejected: $r");
+    if (($r = $cmd("MAIL FROM:<$user>", '250')) !== true) return $fail("mail from: $r");
+    if (($r = $cmd("RCPT TO:<$to>", '250')) !== true) return $fail("rcpt: $r");
+    if (($r = $cmd('DATA', '354')) !== true) return $fail("data: $r");
+
+    $msg = implode("\r\n", [
+        'Date: ' . date('r'),
+        'From: Rends Media Website <' . $user . '>',
+        'To: <' . $to . '>',
+        'Reply-To: ' . $replyTo,
+        'Subject: ' . $subject,
+        'Message-ID: <' . bin2hex(random_bytes(12)) . '@rendsmedia.com>',
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: base64',
+        '',
+        rtrim(chunk_split(base64_encode($body), 76, "\r\n")),
+    ]);
+    if (($r = $cmd($msg . "\r\n.", '250')) !== true) return $fail("send: $r");
+    $cmd('QUIT', '221');
+    fclose($s);
+    return true;
+}
