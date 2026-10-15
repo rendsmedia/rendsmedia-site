@@ -123,33 +123,46 @@
   });
 
   var buttons = document.querySelectorAll('.filter');
-  var sections = [document.querySelector('.work-films'), document.querySelector('.work-photos')];
-  function apply(cat) {
+  var photosSec = document.querySelector('.work-photos');
+  var filmsSec = document.querySelector('.work-films');
+  var state = { format: 'all', cat: 'all' };
+  var cats = ['development', 'corporate', 'events'], formats = ['photos', 'films'];
+  function apply() {
     buttons.forEach(function (b) {
-      var on = b.getAttribute('data-filter') === cat;
+      var on = state[b.getAttribute('data-group')] === b.getAttribute('data-filter');
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    sections.forEach(function (sec) {
+    [[photosSec, 'photos'], [filmsSec, 'films']].forEach(function (pair) {
+      var sec = pair[0];
       if (!sec) return;
       var shown = 0;
       sec.querySelectorAll('[data-cat]').forEach(function (el) {
-        var hide = cat !== 'all' && el.getAttribute('data-cat') !== cat;
+        var hide = state.cat !== 'all' && el.getAttribute('data-cat') !== state.cat;
         el.classList.toggle('is-filtered-out', hide);
         if (!hide) shown++;
       });
-      sec.classList.toggle('is-filtered-out', shown === 0);
+      var formatHidden = state.format !== 'all' && state.format !== pair[1];
+      sec.classList.toggle('is-filtered-out', formatHidden || shown === 0);
     });
+  }
+  function writeHash() {
+    var parts = [];
+    if (state.format !== 'all') parts.push(state.format);
+    if (state.cat !== 'all') parts.push(state.cat);
+    history.replaceState(null, '', parts.length ? '#' + parts.join('-') : location.pathname);
   }
   buttons.forEach(function (b) {
     b.addEventListener('click', function () {
-      var cat = b.getAttribute('data-filter');
-      apply(cat);
-      history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat);
+      state[b.getAttribute('data-group')] = b.getAttribute('data-filter');
+      apply(); writeHash();
     });
   });
-  var fromHash = (location.hash || '').replace('#', '');
-  apply(['development', 'corporate', 'events'].indexOf(fromHash) > -1 ? fromHash : 'all');
+  (location.hash || '').replace('#', '').split('-').forEach(function (p) {
+    if (cats.indexOf(p) > -1) state.cat = p;
+    if (formats.indexOf(p) > -1) state.format = p;
+  });
+  apply();
 })();
 
 // YouTube thumbnails: some videos have no HD still; fall back to the standard one
