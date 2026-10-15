@@ -1,8 +1,8 @@
 ---
 # cPanel Git Version Control deployment.
 # "Deploy HEAD Commit" copies everything in /site to the staging subdomain.
-# When the site goes live, change DEPLOYPATH to /home/rends/public_html/
+# Live: deploys to the main domain (rendsmedia.com).
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/rends/public_html/new.rendsmedia.com/
+    - export DEPLOYPATH=/home/rends/public_html/
     - /bin/cp -R site/. $DEPLOYPATH

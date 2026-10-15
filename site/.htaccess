@@ -1,3 +1,25 @@
+# Rends Media website
+
+# Always use https://rendsmedia.com (no www)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(rendsmedia\.com)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Old WordPress addresses -> new pages, so shared links and search results keep working
+  RewriteRule ^services/?$ /#services [NE,L,R=301]
+  RewriteRule ^contact/?$ /contact.html [L,R=301]
+  RewriteRule ^(about|sample-page|hello-world|customer-cabinet(-2)?)/?$ / [L,R=301]
+  RewriteRule ^(category|author|tag)/ / [L,R=301]
+  RewriteRule ^(wp-admin|wp-content|wp-includes)(/.*)?$ / [L,R=301]
+  RewriteRule ^(wp-login|xmlrpc|wp-[a-z-]+)\.php$ / [L,R=301]
+  RewriteRule ^((page|post|category|author)-sitemap|wp-sitemap|sitemap_index)\.xml$ /sitemap.xml [L,R=301]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
 # Always re-check pages so content updates show immediately.
 # Stylesheets and scripts are versioned (?v=) in the HTML, so they can be cached long-term.
 <IfModule mod_headers.c>
