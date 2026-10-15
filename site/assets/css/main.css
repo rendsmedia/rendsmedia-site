@@ -155,6 +155,7 @@ body { padding-top: var(--header-h); }
 /* ---------- Generic sections ---------- */
 .section { padding: var(--space) 0; }
 .section--mist { background: var(--white); }
+.section--tint { background: #ECECEC; }
 .section--dark { background: var(--ink); color: var(--white); }
 .section--blue { background: var(--blue); color: var(--white); }
 .section--blue .lead { color: rgba(255,255,255,.8); }
