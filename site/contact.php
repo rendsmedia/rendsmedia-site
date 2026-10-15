@@ -119,11 +119,24 @@ function smtp_send(array $cfg, string $to, string $replyTo, string $subject, str
     };
     if ($user === '' || $pass === '') return $fail('config missing user or pass');
 
-    $s = @stream_socket_client('ssl://smtp.gmail.com:465', $errno, $errstr, 15);
+    // TLS settings: always verify Google's certificate (never send the password to an impostor).
+    $tlsOpts = ['peer_name' => 'smtp.gmail.com', 'verify_peer' => true, 'verify_peer_name' => true, 'SNI_enabled' => true];
+    foreach (['/etc/pki/tls/certs/ca-bundle.crt', '/etc/ssl/certs/ca-certificates.crt', '/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem'] as $ca) {
+        if (is_readable($ca)) { $tlsOpts['cafile'] = $ca; break; }
+    }
+    $method = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+    if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) $method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+    if (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) $method |= STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
+    $tlsOpts['crypto_method'] = $method;
+    $ctx = stream_context_create(['ssl' => $tlsOpts]);
+    $lastErr = function () { $e = error_get_last(); return $e ? preg_replace('/\s+/', ' ', $e['message']) : 'unknown'; };
+
+    $s = @stream_socket_client('ssl://smtp.gmail.com:465', $errno, $errstr, 15, STREAM_CLIENT_CONNECT, $ctx);
     $tls = false;
+    $why465 = $s ? '' : "$errstr | " . $lastErr();
     if (!$s) {
-        $s = @stream_socket_client('tcp://smtp.gmail.com:587', $errno2, $errstr2, 15);
-        if (!$s) return $fail("connect failed: 465 ($errstr) / 587 ($errstr2)");
+        $s = @stream_socket_client('tcp://smtp.gmail.com:587', $errno2, $errstr2, 15, STREAM_CLIENT_CONNECT, $ctx);
+        if (!$s) return $fail("connect failed: 465 ($why465) / 587 ($errstr2)");
         $tls = true;
     }
     stream_set_timeout($s, 20);
@@ -138,11 +151,16 @@ function smtp_send(array $cfg, string $to, string $replyTo, string $subject, str
         return strncmp($r, $expect, 3) === 0 ? true : trim($r);
     };
     $host = 'rendsmedia.com';
-    if (($r = $cmd('', '220')) !== true) return $fail("greeting: $r");
+    $greeting = $read();
+    if (strncmp($greeting, '220', 3) !== 0) return $fail('greeting: ' . trim($greeting));
+    $banner = substr(trim(strtok($greeting, "\n")), 0, 120);
     if (($r = $cmd("EHLO $host", '250')) !== true) return $fail("ehlo: $r");
     if ($tls) {
         if (($r = $cmd('STARTTLS', '220')) !== true) return $fail("starttls: $r");
-        if (!stream_socket_enable_crypto($s, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) return $fail('tls handshake failed');
+        if (!@stream_socket_enable_crypto($s, true, $method)) {
+            return $fail('tls handshake failed on 587 | 465: ' . ($why465 ?: 'n/a') . ' | 587 banner: ' . $banner . ' | ' . $lastErr()
+                . ' | php ' . PHP_VERSION . ' ' . OPENSSL_VERSION_TEXT . ' | cafile ' . ($tlsOpts['cafile'] ?? 'default'));
+        }
         if (($r = $cmd("EHLO $host", '250')) !== true) return $fail("ehlo2: $r");
     }
     if (($r = $cmd('AUTH LOGIN', '334')) !== true) return $fail("auth: $r");
