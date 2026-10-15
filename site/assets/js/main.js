@@ -151,3 +151,15 @@
   var fromHash = (location.hash || '').replace('#', '');
   apply(['development', 'corporate', 'events'].indexOf(fromHash) > -1 ? fromHash : 'all');
 })();
+
+// YouTube thumbnails: some videos have no HD still; fall back to the standard one
+(function () {
+  document.querySelectorAll('.film__media img[src*="ytimg.com"]').forEach(function (img) {
+    function check() {
+      if (img.naturalWidth && img.naturalWidth <= 120 && img.src.indexOf('maxresdefault') > -1) {
+        img.src = img.src.replace('maxresdefault', 'hqdefault');
+      }
+    }
+    if (img.complete) check(); else img.addEventListener('load', check);
+  });
+})();
