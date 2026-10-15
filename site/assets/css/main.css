@@ -334,3 +334,20 @@ body { padding-top: var(--header-h); }
   .logos.is-marquee { animation: none; }
 }
 .logos:not(.is-marquee) .logos__copy { display: none; }
+
+/* ---------- Work page ---------- */
+.work-intro { background: var(--white); padding-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+.filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; }
+.filter {
+  font: 600 .75rem/1 var(--font); letter-spacing: .08em; text-transform: uppercase;
+  padding: .7rem 1.2rem; min-height: 2.5rem; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--ink); border: 1.5px solid #CFCFCF;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.filter:hover { border-color: var(--ink); }
+.filter.is-active { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.work-films .films { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.work-films .film__title { font-size: 1.0625rem; }
+@media (max-width: 64rem) { .work-films .films { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 52rem) { .work-films .films { grid-template-columns: 1fr; } }
+.is-filtered-out { display: none !important; }

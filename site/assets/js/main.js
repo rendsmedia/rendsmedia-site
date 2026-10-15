@@ -97,3 +97,57 @@
     if (firstBad) { e.preventDefault(); firstBad.focus(); }
   });
 })();
+
+// Work page: fresh random order on every visit, and category filters (also via #development etc.)
+(function () {
+  var shuffleBoxes = document.querySelectorAll('[data-shuffle]');
+  if (!shuffleBoxes.length) return;
+  shuffleBoxes.forEach(function (box) {
+    var items = Array.prototype.slice.call(box.children);
+    for (var i = items.length - 1; i > 0; i--) {
+      var k = Math.floor(Math.random() * (i + 1));
+      var t = items[i]; items[i] = items[k]; items[k] = t;
+    }
+    // Keep large photos out of the last few spots so the grid ends without gaps
+    if (box.classList.contains('gallery')) {
+      var tail = 6, isBig = function (el) { return el.classList.contains('shot--wide'); };
+      for (var n = items.length - tail; n < items.length; n++) {
+        if (isBig(items[n])) {
+          var moved = items.splice(n, 1)[0];
+          items.splice(Math.floor(Math.random() * (items.length - tail)), 0, moved);
+          n = items.length - tail - 1; // re-check the tail from the start
+        }
+      }
+    }
+    items.forEach(function (el) { box.appendChild(el); });
+  });
+
+  var buttons = document.querySelectorAll('.filter');
+  var sections = [document.querySelector('.work-films'), document.querySelector('.work-photos')];
+  function apply(cat) {
+    buttons.forEach(function (b) {
+      var on = b.getAttribute('data-filter') === cat;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    sections.forEach(function (sec) {
+      if (!sec) return;
+      var shown = 0;
+      sec.querySelectorAll('[data-cat]').forEach(function (el) {
+        var hide = cat !== 'all' && el.getAttribute('data-cat') !== cat;
+        el.classList.toggle('is-filtered-out', hide);
+        if (!hide) shown++;
+      });
+      sec.classList.toggle('is-filtered-out', shown === 0);
+    });
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var cat = b.getAttribute('data-filter');
+      apply(cat);
+      history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat);
+    });
+  });
+  var fromHash = (location.hash || '').replace('#', '');
+  apply(['development', 'corporate', 'events'].indexOf(fromHash) > -1 ? fromHash : 'all');
+})();
