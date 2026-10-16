@@ -1,8 +1,10 @@
 ---
-# cPanel Git Version Control deployment.
-# "Deploy HEAD Commit" copies everything in /site to the staging subdomain.
-# Live: deploys to the main domain (rendsmedia.com).
+# cPanel Git Version Control deployment for rendsmedia.com.
+# "Deploy HEAD Commit" copies everything in /site to the main domain, then
+# stamps the commit code into every CSS/JS link (?v=...) so browsers always
+# load the newest styles and scripts after each deploy.
 deployment:
   tasks:
     - export DEPLOYPATH=/home/rends/public_html/
     - /bin/cp -R site/. $DEPLOYPATH
+    - /bin/bash -c 'V=$(git rev-parse --short HEAD 2>/dev/null || date +%s); /bin/sed -i -E "s/\.(css|js)\?v=[A-Za-z0-9]+/.\1?v=$V/g" "$DEPLOYPATH"*.html'
