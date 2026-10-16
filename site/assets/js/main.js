@@ -165,6 +165,76 @@
   apply();
 })();
 
+// Work page: tap a photo to see it large, with previous/next, arrow keys and swipe
+(function () {
+  var viewer = document.getElementById('viewer');
+  var gallery = document.querySelector('.gallery--work');
+  if (!viewer || !gallery || typeof viewer.showModal !== 'function') return;
+  var img = viewer.querySelector('.viewer__img');
+  var cap = viewer.querySelector('.viewer__caption');
+  var count = viewer.querySelector('.viewer__count');
+  var list = [], index = 0, opener = null;
+
+  function visibleShots() {
+    return Array.prototype.filter.call(gallery.querySelectorAll('.shot'), function (s) {
+      return !s.classList.contains('is-filtered-out');
+    });
+  }
+  function show(i) {
+    index = (i + list.length) % list.length;
+    var shot = list[index], small = shot.querySelector('img');
+    var large = small.getAttribute('src').replace('/work/', '/work/large/');
+    var caption = shot.querySelector('figcaption');
+    img.classList.add('is-loading');
+    img.onload = function () { img.classList.remove('is-loading'); };
+    img.onerror = function () { img.onerror = null; img.src = small.getAttribute('src'); };
+    img.src = large;
+    img.alt = small.alt;
+    cap.textContent = caption ? caption.textContent : '';
+    count.textContent = (index + 1) + ' / ' + list.length;
+    // warm up the next photo so swiping feels instant
+    var next = list[(index + 1) % list.length].querySelector('img');
+    (new Image()).src = next.getAttribute('src').replace('/work/', '/work/large/');
+  }
+  function open(shot) {
+    list = visibleShots();
+    opener = shot;
+    show(list.indexOf(shot));
+    viewer.showModal();
+  }
+
+  gallery.querySelectorAll('.shot').forEach(function (shot) {
+    shot.setAttribute('tabindex', '0');
+    shot.setAttribute('role', 'button');
+    shot.setAttribute('aria-label', 'Enlarge photo: ' + (shot.querySelector('img').alt || 'photo'));
+    shot.addEventListener('click', function () { open(shot); });
+    shot.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(shot); }
+    });
+  });
+
+  viewer.querySelector('.viewer__close').addEventListener('click', function () { viewer.close(); });
+  viewer.querySelector('.viewer__prev').addEventListener('click', function () { show(index - 1); });
+  viewer.querySelector('.viewer__next').addEventListener('click', function () { show(index + 1); });
+  viewer.addEventListener('click', function (e) {
+    if (e.target === viewer || e.target.classList.contains('viewer__figure')) viewer.close();
+  });
+  viewer.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+  viewer.addEventListener('close', function () { img.removeAttribute('src'); if (opener) opener.focus(); });
+
+  var startX = null, startY = null;
+  viewer.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
+  viewer.addEventListener('touchend', function (e) {
+    if (startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(index + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
+})();
+
 // YouTube thumbnails: some videos have no HD still; fall back to the standard one
 (function () {
   document.querySelectorAll('.film__media img[src*="ytimg.com"]').forEach(function (img) {
