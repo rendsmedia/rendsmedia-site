@@ -49,6 +49,7 @@ $types = [
     'audit'     => 'Visual audit',
     'events'    => 'Event coverage',
     'corporate' => 'Corporate content',
+    'digital'   => 'Rends Digital: branding, design or website',
     'other'     => 'Something else',
     'sample'    => 'Sample audit brief request',
 ];
