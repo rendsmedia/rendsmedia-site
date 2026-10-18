@@ -15,6 +15,10 @@
   RewriteRule ^(category|author|tag)/ / [L,R=301]
   RewriteRule ^(wp-admin|wp-content|wp-includes)(/.*)?$ / [L,R=301]
   RewriteRule ^(wp-login|xmlrpc|wp-[a-z-]+)\.php$ / [L,R=301]
+  # Clean address for the donors page
+  RewriteCond %{THE_REQUEST} \s/donors\.html[\s?]
+  RewriteRule ^donors\.html$ /donors [L,R=301]
+  RewriteRule ^donors/?$ donors.html [L]
   RewriteRule ^((page|post|category|author)-sitemap|wp-sitemap|sitemap_index)\.xml$ /sitemap.xml [L,R=301]
 </IfModule>
 

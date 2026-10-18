@@ -393,3 +393,29 @@ html:has(.viewer[open]) { overflow: hidden; }
 .footer-base .credit { color: var(--accent-light); }
 .footer-base a.credit { text-decoration: underline; text-underline-offset: .2em; }
 .footer-base .credit:hover { color: var(--white); }
+
+/* ---------- Donor band (homepage) ---------- */
+.donor-band { background: var(--accent); color: var(--white); padding: clamp(1.75rem, 4vw, 2.5rem) 0; }
+.donor-band .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; flex-wrap: wrap; }
+.donor-band h2 { font-size: clamp(1.25rem, 2.4vw, 1.75rem); font-weight: 700; text-transform: uppercase; letter-spacing: -.005em; line-height: 1.2; margin: 0; }
+.donor-band h2 span { display: block; font-weight: 500; text-transform: none; font-size: .72em; letter-spacing: 0; opacity: .92; margin-top: .3rem; }
+
+/* ---------- Donors page ---------- */
+.donor-problem { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.donor-problem .lead { margin-top: 1.25rem; }
+.example { background: #ECECEC; border-left: 4px solid var(--accent); border-radius: var(--radius); padding: clamp(1.5rem, 3vw, 2.25rem); }
+.example__label { font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); margin: 0 0 .75rem; }
+.example h3 { font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 700; text-transform: uppercase; line-height: 1.2; margin: 0 0 .9rem; }
+.example p { font-size: .9375rem; color: var(--grey); margin: 0; }
+.process-note { margin: 2rem 0 0; font-size: .875rem; font-style: italic; color: var(--grey); }
+.pledges { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
+.pledges li { padding: 1.5rem 1.5rem 1.6rem; border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: var(--radius); font-size: 1rem; line-height: 1.6; }
+.craft { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.craft .lead { margin-top: 1.25rem; }
+.craft__photos { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; gap: .75rem; aspect-ratio: 4 / 3; }
+.craft__photos img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); }
+.craft__photos img:first-child { grid-row: span 2; }
+@media (max-width: 52rem) {
+  .donor-problem, .craft { grid-template-columns: 1fr; }
+  .pledges { grid-template-columns: 1fr; }
+}
