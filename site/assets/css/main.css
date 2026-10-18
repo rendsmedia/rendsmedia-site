@@ -407,6 +407,14 @@ html:has(.viewer[open]) { overflow: hidden; }
 .example__label { font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); margin: 0 0 .75rem; }
 .example h3 { font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 700; text-transform: uppercase; line-height: 1.2; margin: 0 0 .9rem; }
 .example p { font-size: .9375rem; color: var(--grey); margin: 0; }
+.findings { list-style: none; margin: .9rem 0 1rem; padding: 0; }
+.findings li { display: grid; grid-template-columns: 1.75rem 1fr; gap: .6rem; align-items: start; padding: .6rem 0; border-top: 1px solid rgba(0,0,0,.08); font-size: .9rem; line-height: 1.5; color: var(--ink); }
+.findings strong { display: block; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); }
+.findings__mark { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; font-size: .8rem; font-weight: 700; color: var(--white); margin-top: .1rem; }
+.is-ok .findings__mark { background: #3C7A4E; }
+.is-warn .findings__mark { background: #C98A12; }
+.is-bad .findings__mark { background: #B23A2B; }
+.example .example__outcome { color: var(--ink); }
 .process-note { margin: 2rem 0 0; font-size: .875rem; font-style: italic; color: var(--grey); }
 .pledges { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
 .pledges li { padding: 1.5rem 1.5rem 1.6rem; border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: var(--radius); font-size: 1rem; line-height: 1.6; }

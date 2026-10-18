@@ -65,8 +65,16 @@
         </div>
         <aside class="example" aria-labelledby="example-title">
           <p class="example__label">Example</p>
-          <h3 id="example-title">Five boreholes funded. <span class="hl">Three found.</span></h3>
-          <p>You fund five boreholes. We visit all five sites. Three are drilled and working, and we film and photograph each one. Two can't be found. Our brief tells you exactly that, with the evidence, so you can act before the next payment.</p>
+          <h3 id="example-title">Five boreholes funded. <span class="hl">All five reported complete.</span></h3>
+          <p>Here's what our visit found:</p>
+          <ol class="findings">
+            <li class="is-ok"><span class="findings__mark" aria-label="Working">&#10004;</span><span><strong>Site 1</strong> Working. About 60 households collect water daily.</span></li>
+            <li class="is-ok"><span class="findings__mark" aria-label="Working">&#10004;</span><span><strong>Site 2</strong> Working.</span></li>
+            <li class="is-ok"><span class="findings__mark" aria-label="Working">&#10004;</span><span><strong>Site 3</strong> Working. Water committee in place.</span></li>
+            <li class="is-warn"><span class="findings__mark" aria-label="Problem">&#9888;</span><span><strong>Site 4</strong> Drilled, but the pump has been broken since March. Nobody has reported it.</span></li>
+            <li class="is-bad"><span class="findings__mark" aria-label="Not found">&#10006;</span><span><strong>Site 5</strong> Not found at the reported village. Residents point to a borehole 8 km away, which was built by another organisation.</span></li>
+          </ol>
+          <p class="example__outcome"><strong>Three out of five. The report said five.</strong> With site-by-site photos, GPS points and residents' own words, you can ask the right questions before the next payment.</p>
         </aside>
       </div>
     </section>
