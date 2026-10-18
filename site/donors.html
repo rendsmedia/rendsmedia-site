@@ -52,7 +52,7 @@
         <p class="hero__text">We visit the projects you pay for across Uganda, often unannounced, and show you on camera whether they exist, are finished and are being used.</p>
         <div class="actions">
           <a class="button" href="contact.html?enquiry=audit">Tell us what you've funded</a>
-          <a class="button button--ghost" href="contact.html?enquiry=audit">Request a sample audit brief</a>
+          <a class="button button--ghost" href="#sample">Request a sample audit brief</a>
         </div>
       </div>
     </section>
@@ -100,7 +100,7 @@
           <div>
             <h2 class="title" id="get-title">What you <span class="hl">get</span></h2>
             <div class="actions">
-              <a class="button" href="contact.html?enquiry=audit">Request a sample audit brief</a>
+              <a class="button" href="#sample">Request a sample audit brief</a>
             </div>
           </div>
           <ol class="steps">
@@ -109,6 +109,46 @@
             <li><strong>Verified beneficiary interviews</strong><span>Short, consented interviews with the people a project is meant to serve.</span></li>
             <li><strong>Executive audit brief</strong><span>A concise written summary of what we found, with the visual evidence attached.</span></li>
           </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tint" id="sample" aria-labelledby="sample-title">
+      <div class="wrap">
+        <div class="sample-box">
+          <h2 class="title" id="sample-title">Request a sample <span class="hl">audit brief</span></h2>
+          <div class="notice notice--ok" id="sample-sent" role="status" hidden>
+            <strong>Thank you, your request has been sent.</strong>
+            <span>We'll email you the sample brief within one working day.</span>
+          </div>
+          <div class="notice notice--error" id="sample-error" role="alert" hidden>
+            <strong>Your request didn't send.</strong>
+            <span>Please check the required fields and try again, or email us directly at <a href="mailto:business@rendsmedia.com">business@rendsmedia.com</a>.</span>
+          </div>
+          <form class="form sample-form" id="sample-form" action="contact.php" method="post" novalidate>
+            <input type="hidden" name="enquiry" value="sample">
+            <input type="hidden" name="return" value="donors">
+            <div class="sample-form__fields">
+              <div class="field">
+                <label for="s-name">Your name <span class="req" aria-hidden="true">*</span></label>
+                <input id="s-name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="s-org">Organisation</label>
+                <input id="s-org" name="organisation" type="text" autocomplete="organization">
+              </div>
+              <div class="field">
+                <label for="s-email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input id="s-email" name="email" type="email" autocomplete="email" required>
+              </div>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="s-website">Leave this empty</label>
+              <input id="s-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="started" id="s-started" value="">
+            <button class="button" type="submit">Send me the sample</button>
+          </form>
         </div>
       </div>
     </section>
@@ -194,6 +234,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=12"></script>
+  <script src="assets/js/main.js?v=13"></script>
 </body>
 </html>

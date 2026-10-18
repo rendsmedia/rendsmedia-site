@@ -9,8 +9,17 @@ const TO_ADDRESS   = 'business@rendsmedia.com';
 const FROM_ADDRESS = 'website@rendsmedia.com';   // sending address on our own domain (helps deliverability)
 const MIN_SECONDS  = 3;                           // humans take longer than this to fill the form
 
+// Where to send the visitor afterwards: the contact page, or the donors page for sample brief requests.
+$returnTo = (isset($_POST['return']) && $_POST['return'] === 'donors') ? 'donors' : 'contact';
+
 function back(string $result): void {
-    header('Location: contact.html?' . $result . '#form', true, 303);
+    global $returnTo;
+    if ($returnTo === 'donors') {
+        $q = $result === 'sent=1' ? 'sample=sent' : ($result === 'error=1' ? 'sample=error' : '');
+        header('Location: donors' . ($q !== '' ? '?' . $q : '') . '#sample', true, 303);
+    } else {
+        header('Location: contact.html?' . $result . '#form', true, 303);
+    }
     exit;
 }
 
@@ -41,6 +50,7 @@ $types = [
     'events'    => 'Event coverage',
     'corporate' => 'Corporate content',
     'other'     => 'Something else',
+    'sample'    => 'Sample audit brief request',
 ];
 
 $name     = line('name', 120);
@@ -55,6 +65,10 @@ $budget   = line('budget', 40);
 $sites    = line('audit_sites', 60);
 $auditLoc = line('audit_locations', 200);
 $message  = block('message', 5000);
+
+if ($typeKey === 'sample' && $message === '') {
+    $message = 'Please send me a sample audit brief. (Requested from the For donors page.)';
+}
 
 if ($name === '' || $message === '' || !isset($types[$typeKey]) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     back('error=1');

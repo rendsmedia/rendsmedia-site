@@ -70,8 +70,8 @@
 
 // Contact form: preselect from link, show audit questions, success/error notices, basic checks
 (function () {
-  var form = document.querySelector('.form');
-  if (!form) return;
+  var form = document.querySelector('.form:not(.sample-form)');
+  if (!form || !document.getElementById('f-type')) return;
   var params = new URLSearchParams(window.location.search);
   var type = document.getElementById('f-type');
   var extra = document.getElementById('audit-extra');
@@ -232,6 +232,26 @@
     var dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(index + (dx < 0 ? 1 : -1));
     startX = null;
+  });
+})();
+
+// Donors page: short sample brief request form
+(function () {
+  var form = document.getElementById('sample-form');
+  if (!form) return;
+  var started = document.getElementById('s-started');
+  if (started) started.value = String(Date.now());
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('sample') === 'sent') { document.getElementById('sample-sent').hidden = false; form.hidden = true; }
+  if (params.get('sample') === 'error') { document.getElementById('sample-error').hidden = false; }
+  form.addEventListener('submit', function (e) {
+    var firstBad = null;
+    form.querySelectorAll('[required]').forEach(function (el) {
+      var bad = !el.value.trim() || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+      if (bad && !firstBad) firstBad = el;
+    });
+    if (firstBad) { e.preventDefault(); firstBad.focus(); }
   });
 })();
 

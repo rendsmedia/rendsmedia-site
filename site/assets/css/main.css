@@ -427,3 +427,9 @@ html:has(.viewer[open]) { overflow: hidden; }
   .donor-problem, .craft { grid-template-columns: 1fr; }
   .pledges { grid-template-columns: 1fr; }
 }
+
+/* ---------- Donors page: sample brief request ---------- */
+.sample-box { max-width: 56rem; }
+.sample-box .title { margin-bottom: 1.75rem; }
+.sample-form__fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 52rem) { .sample-form__fields { grid-template-columns: 1fr; } }
