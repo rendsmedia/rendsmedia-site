@@ -46,7 +46,7 @@ if (line('website', 200) !== '' || ($started > 0 && (time() - intdiv($started, 1
 
 $types = [
     'impact'    => 'Impact documentation',
-    'audit'     => 'Visual audit',
+    'audit'     => 'Visual audit / third-party monitoring',
     'events'    => 'Event coverage',
     'corporate' => 'Corporate content',
     'digital'   => 'Rends Digital: branding, design or website',
